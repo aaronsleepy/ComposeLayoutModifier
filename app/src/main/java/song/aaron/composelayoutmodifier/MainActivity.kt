@@ -17,6 +17,7 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import song.aaron.composelayoutmodifier.ui.theme.ComposeLayoutModifierTheme
+import kotlin.math.roundToInt
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +51,18 @@ fun MainScreen() {
                 .exampleLayout(90, 50)
                 .background(Color.Blue)
         )
+
+        ColorBox(
+            modifier = Modifier
+                .exampleLayout2(0f)
+                .background(Color.Green)
+        )
+
+        ColorBox(
+            modifier = Modifier
+                .exampleLayout2(0.25f)
+                .background(Color.Red)
+        )
     }
 }
 
@@ -58,6 +71,15 @@ fun Modifier.exampleLayout(x: Int, y: Int) = layout { measurable, constraints ->
 
     layout(placeable.width, placeable.height) {
         placeable.placeRelative(x, y)
+    }
+}
+
+fun Modifier.exampleLayout2(fraction: Float) = layout { measurable, constraints ->
+    val placeable = measurable.measure(constraints)
+
+    val x = -(placeable.width * fraction).roundToInt()
+    layout(placeable.width, placeable.height) {
+        placeable.placeRelative(x, 0)
     }
 }
 
